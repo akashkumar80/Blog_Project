@@ -1,0 +1,87 @@
+{% extends 'blogapp/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .blog {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .blog h2 {
+            margin: 0 0 10px;
+            color: #007bff;
+        }
+        .blog p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .blog a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .blog a:hover {
+            text-decoration: underline;
+        }
+        .new-blog {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .new-blog:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>All Blogs</h1>
+        <a href="{% url 'blog:create' %}" class="new-blog">Create New Blog</a>
+        {% for blog in blogs %}
+        <div class="blog">
+            <h2><a href="{% url 'blog:detail' blog.id %}">{{ blog.title }}</a></h2>
+            <p><strong>Author:</strong> {{ blog.author.username }}</p>
+            <p><strong>Published:</strong> {{ blog.created_at|date:"F j, Y" }}</p>
+            <p>{{ blog.content|truncatewords:30 }}</p>
+        </div>
+        {% empty %}
+        <p>No blogs available. Be the first to <a href="{% url 'blog:create' %}">create a blog</a>.</p>
+        {% endfor %}
+       
+    </div>
+    
+</body>
+</html>
+{% endblock %}
